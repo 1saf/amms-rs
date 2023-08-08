@@ -285,7 +285,7 @@ impl AutomatedMarketMaker for UniswapV3Pool {
                     }
 
                     current_state.liquidity = if liquidity_net < 0 {
-                        println!("Current Liquidity {} Liquidity Net {}", current_state.liquidity, liquidity_net);
+                        println!("Tick {} Current Liquidity {} Liquidity Net {}", current_state.tick, current_state.liquidity, liquidity_net);
                         if current_state.liquidity < (-liquidity_net as u128) {
                             return Err(SwapSimulationError::LiquidityUnderflow);
                         } else {
@@ -419,7 +419,7 @@ impl AutomatedMarketMaker for UniswapV3Pool {
                     }
 
                     current_state.liquidity = if liquidity_net < 0 {
-                        println!("Current Liquidity {} Liquidity Net {}", current_state.liquidity, liquidity_net);
+                        println!("Tick {} Current Liquidity {} Liquidity Net {}", current_state.tick, current_state.liquidity, liquidity_net);
                         if current_state.liquidity < (-liquidity_net as u128) {
                             return Err(SwapSimulationError::LiquidityUnderflow);
                         } else {
