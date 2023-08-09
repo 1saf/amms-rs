@@ -1147,6 +1147,23 @@ impl UniswapV3Pool {
 
         Ok(((-current_state.amount_calculated).into_raw(), current_state.sqrt_price_x_96))
     }
+
+    pub fn calculate_price_from_x96(&self, base_token: H160, sqrt_price_x96: U256) -> Result<f64, ArithmeticError> {
+        let tick = uniswap_v3_math::tick_math::get_tick_at_sqrt_ratio(sqrt_price_x96)?;
+        let shift = self.token_a_decimals as i8 - self.token_b_decimals as i8;
+
+        let price = match shift.cmp(&0) {
+            Ordering::Less => 1.0001_f64.powi(tick) / 10_f64.powi(-shift as i32),
+            Ordering::Greater => 1.0001_f64.powi(tick) * 10_f64.powi(shift as i32),
+            Ordering::Equal => 1.0001_f64.powi(tick),
+        };
+
+        if base_token == self.token_a {
+            Ok(price)
+        } else {
+            Ok(1.0 / price)
+        }
+    }
 }
 
 pub struct CurrentState {
