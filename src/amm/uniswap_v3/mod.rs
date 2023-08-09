@@ -1018,7 +1018,7 @@ impl UniswapV3Pool {
             .encode_input(&input_tokens)
     }
 
-    fn simulate_swap_with_impact(&self, token_in: H160, amount_in: U256) -> Result<(U256, U256), SwapSimulationError> {
+    pub fn simulate_swap_with_impact(&self, token_in: H160, amount_in: U256) -> Result<(U256, U256), SwapSimulationError> {
         if amount_in.is_zero() {
             return Ok((U256::zero(), U256::zero()));
         }
